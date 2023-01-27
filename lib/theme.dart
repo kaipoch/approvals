@@ -52,7 +52,7 @@ TextTheme textTheme() {
 
 AppBarTheme appBarTheme() {
   return const AppBarTheme(
-    color: Color(0XFF00376A),
+    color: Colors.white70,
     elevation: 0,
     // ignore: deprecated_member_use
     brightness: Brightness.light,

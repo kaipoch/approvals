@@ -23,12 +23,12 @@ class _BodyState extends State<Body> {
             if (jwt == null || jwt == "") {
               Future.delayed(Duration.zero, () async {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
+                    MaterialPageRoute(builder: (context) => const MainPage()));
               });
             } else {
               Future.delayed(Duration.zero, () async {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const MainPage()));
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
               });
             }
           }
