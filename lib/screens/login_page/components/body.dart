@@ -38,7 +38,7 @@ class _BodyState extends State<Body> {
             child: TextFormField(
                 key: const Key('Email'),
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 15,
                 ),
                 controller: _emailController,
@@ -60,16 +60,16 @@ class _BodyState extends State<Body> {
                       borderRadius: BorderRadius.all(
                         Radius.circular(50.0),
                       ),
-                      borderSide: BorderSide(color: Colors.white, width: 1)),
+                      borderSide: BorderSide(color: Colors.black, width: 1)),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(50.0),
                       ),
-                      borderSide: BorderSide(color: Colors.white, width: 2)),
+                      borderSide: BorderSide(color: Colors.black, width: 2)),
                   hintText: 'Email Id',
                   hintStyle: TextStyle(
                     fontSize: 15,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
                 keyboardType: TextInputType.emailAddress,
@@ -82,7 +82,7 @@ class _BodyState extends State<Body> {
                   }
                   return null;
                 },
-                cursorColor: Colors.white),
+                cursorColor: Colors.black),
           ),
         ),
         const SizedBox(height: 10),
@@ -94,7 +94,7 @@ class _BodyState extends State<Body> {
                 obscureText: true,
                 key: const Key('Password'),
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 15,
                 ),
                 controller: _passwordController,
@@ -116,16 +116,16 @@ class _BodyState extends State<Body> {
                       borderRadius: BorderRadius.all(
                         Radius.circular(50.0),
                       ),
-                      borderSide: BorderSide(color: Colors.white, width: 1)),
+                      borderSide: BorderSide(color: Colors.black, width: 1)),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(50.0),
                       ),
-                      borderSide: BorderSide(color: Colors.white, width: 2)),
+                      borderSide: BorderSide(color: Colors.black, width: 2)),
                   hintText: 'Password',
                   hintStyle: TextStyle(
                     fontSize: 15,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
                 keyboardType: TextInputType.visiblePassword,
@@ -138,7 +138,7 @@ class _BodyState extends State<Body> {
                   }
                   return null;
                 },
-                cursorColor: Colors.white),
+                cursorColor: Colors.black),
           ),
         ),
         const SizedBox(height: 20),
