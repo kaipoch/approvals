@@ -23,29 +23,29 @@ class _MainPageState extends State with SingleTickerProviderStateMixin {
       SpeedDialChild(
           child: const Icon(Icons.pending_actions),
           label: "Pending",
-          backgroundColor: Colors.amberAccent,
+          backgroundColor: Colors.white,
           onTap: () {}),
       SpeedDialChild(
           child: const Icon(Icons.credit_score_rounded),
           label: "Approved",
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.white,
           onTap: () {}),
       SpeedDialChild(
           child: const Icon(Icons.dangerous),
           label: "Rejected",
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.white,
           onTap: () {})
     ],
     [
       SpeedDialChild(
           child: const Icon(Icons.pending_actions),
           label: "Pending",
-          backgroundColor: Colors.amberAccent,
+          backgroundColor: Colors.white,
           onTap: () {}),
       SpeedDialChild(
           child: const Icon(Icons.done_all),
           label: "Closed",
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.white,
           onTap: () {}),
     ]
   ];
@@ -93,7 +93,7 @@ class _MainPageState extends State with SingleTickerProviderStateMixin {
           Center(child: Text("Query"))
         ]),
         floatingActionButton: SpeedDial(
-          animatedIcon: AnimatedIcons.ellipsis_search,
+          animatedIcon: AnimatedIcons.menu_close,
           children: speedDialOptions.elementAt(_selectedIndex),
         ),
       ),
