@@ -1,5 +1,7 @@
 import 'package:approvals/models/approval_provider_model.dart';
 import 'package:approvals/models/approvals.dart';
+import 'package:approvals/screens/approvals/components/approval.dart';
+import 'package:approvals/screens/approvals/components/approval_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,10 +27,20 @@ class Body extends StatelessWidget {
             ),
           )
         : ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             itemCount: approvals.length,
-            itemBuilder: (_, index) =>
-                InkWell(onTap: () {}, child: Text(approvals[index].type)));
+            itemBuilder: (_, index) => InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ApprovalDetailScreen(
+                              approval: approvals[index])));
+                },
+                child: ApprovalBox(
+                  approval: approvals[index],
+                  index: index,
+                )));
   }
 }

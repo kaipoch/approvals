@@ -56,7 +56,7 @@ AppBarTheme appBarTheme() {
     elevation: 0,
     // ignore: deprecated_member_use
     brightness: Brightness.light,
-    iconTheme: IconThemeData(color: Colors.black),
+    iconTheme: IconThemeData(color: homeScreenDarkColor),
     // ignore: deprecated_member_use
     textTheme: TextTheme(
       headline6: TextStyle(color: Color(0XFF8B8B8B), fontSize: 18),

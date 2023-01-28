@@ -1,7 +1,9 @@
 import "package:approvals/constants.dart";
+import "package:approvals/models/approval_provider_model.dart";
 import "package:approvals/screens/approvals/approvals.dart";
 import "package:flutter/material.dart";
 import "package:flutter_speed_dial/flutter_speed_dial.dart";
+import "package:provider/provider.dart";
 
 class MainPage extends StatefulWidget {
   static String routeName = "/mainPage";
@@ -14,43 +16,13 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
   static const List<Tab> myTabs = [
-    Tab(icon: Icon(Icons.offline_pin), text: "Approvals"),
-    Tab(icon: Icon(Icons.contact_support), text: "Queries")
+    Tab(text: "Approvals"),
+    Tab(text: "Queries")
   ];
 
   late TabController _tabController;
 
-  List speedDialOptions = [
-    [
-      SpeedDialChild(
-          child: const Icon(Icons.pending_actions),
-          label: "Pending",
-          backgroundColor: Colors.white,
-          onTap: () {}),
-      SpeedDialChild(
-          child: const Icon(Icons.credit_score_rounded),
-          label: "Approved",
-          backgroundColor: Colors.white,
-          onTap: () {}),
-      SpeedDialChild(
-          child: const Icon(Icons.dangerous),
-          label: "Rejected",
-          backgroundColor: Colors.white,
-          onTap: () {})
-    ],
-    [
-      SpeedDialChild(
-          child: const Icon(Icons.pending_actions),
-          label: "Pending",
-          backgroundColor: Colors.white,
-          onTap: () {}),
-      SpeedDialChild(
-          child: const Icon(Icons.done_all),
-          label: "Closed",
-          backgroundColor: Colors.white,
-          onTap: () {}),
-    ]
-  ];
+  String approvalStatus = "PENDING";
 
   @override
   void initState() {
@@ -73,27 +45,81 @@ class _MainPageState extends State with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    List speedDialOptions = [
+      [
+        SpeedDialChild(
+            child: const Icon(Icons.pending_actions),
+            label: "Pending",
+            backgroundColor: Colors.white,
+            onTap: () {
+              setState(() {
+                approvalStatus = "PENDING";
+              });
+            }),
+        SpeedDialChild(
+            child: const Icon(Icons.credit_score_rounded),
+            label: "Approved",
+            backgroundColor: Colors.white,
+            onTap: () {
+              setState(() {
+                approvalStatus = "APPROVED";
+              });
+            }),
+        SpeedDialChild(
+            child: const Icon(Icons.dangerous),
+            label: "Rejected",
+            backgroundColor: Colors.white,
+            onTap: () {
+              setState(() {
+                approvalStatus = "REJECTED";
+              });
+            })
+      ],
+      [
+        SpeedDialChild(
+            child: const Icon(Icons.pending_actions),
+            label: "Pending",
+            backgroundColor: Colors.white,
+            onTap: () {}),
+        SpeedDialChild(
+            child: const Icon(Icons.done_all),
+            label: "Closed",
+            backgroundColor: Colors.white,
+            onTap: () {}),
+      ]
+    ];
+    context.read<ApprovalProviderModel>().getApprovals(approvalStatus);
     return DefaultTabController(
       length: myTabs.length,
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 0,
-          bottom: TabBar(
-            controller: _tabController,
-            unselectedLabelColor: kSecondaryColor,
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicator: BoxDecoration(
-                gradient: const LinearGradient(
-                    colors: [kPrimaryColor, kSecondaryColor]),
-                borderRadius: BorderRadius.circular(50),
-                color: kSecondaryColor),
-            tabs: myTabs,
+          bottom: PreferredSize(
+            preferredSize: const Size(50.0, 50.0),
+            child: Container(
+              height: 50,
+              padding: const EdgeInsets.all(5),
+              child: TabBar(
+                controller: _tabController,
+                unselectedLabelColor: homeScreenDarkColor,
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicator: BoxDecoration(
+                    gradient: const LinearGradient(colors: [
+                      homeScreenPrimaryColor,
+                      homeScreenSecondaryColor
+                    ]),
+                    borderRadius: BorderRadius.circular(50),
+                    color: kSecondaryColor),
+                tabs: myTabs,
+              ),
+            ),
           ),
         ),
         body: TabBarView(
             controller: _tabController,
             children: const [ApprovalScreen(), Center(child: Text("Query"))]),
         floatingActionButton: SpeedDial(
+          backgroundColor: homeScreenDarkColor,
           animatedIcon: AnimatedIcons.menu_close,
           children: speedDialOptions.elementAt(_selectedIndex),
         ),

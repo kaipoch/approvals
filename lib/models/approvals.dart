@@ -12,7 +12,8 @@ class Approval {
   Approval({
     required this.refLinks,
     required this.status,
-    required this.initialDocIds,
+    required this.initialDocs,
+    required this.history,
     required this.assigned,
     required this.type,
     required this.assignedEmail,
@@ -28,12 +29,12 @@ class Approval {
     required this.createdBy,
     required this.updatedAt,
     required this.createdAt,
-    required this.history,
   });
 
   List<dynamic> refLinks;
   String status;
-  List<dynamic> initialDocIds;
+  List<InitialDoc> initialDocs;
+  List<History> history;
   String assigned;
   String type;
   String assignedEmail;
@@ -49,12 +50,14 @@ class Approval {
   String createdBy;
   DateTime updatedAt;
   DateTime createdAt;
-  List<dynamic> history;
 
   factory Approval.fromJson(Map<String, dynamic> json) => Approval(
         refLinks: List<dynamic>.from(json["refLinks"].map((x) => x)),
         status: json["status"],
-        initialDocIds: List<dynamic>.from(json["initialDocIds"].map((x) => x)),
+        initialDocs: List<InitialDoc>.from(
+            json["initialDocs"].map((x) => InitialDoc.fromJson(x))),
+        history:
+            List<History>.from(json["history"].map((x) => History.fromJson(x))),
         assigned: json["assigned"],
         type: json["type"],
         assignedEmail: json["assignedEmail"],
@@ -68,15 +71,15 @@ class Approval {
         id: json["id"],
         updatedBy: json["updatedBy"],
         createdBy: json["createdBy"],
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        createdAt: DateTime.parse(json["createdAt"]),
-        history: List<dynamic>.from(json["history"].map((x) => x)),
+        updatedAt: DateTime.parse(json["updatedAt"]).toLocal(),
+        createdAt: DateTime.parse(json["createdAt"]).toLocal(),
       );
 
   Map<String, dynamic> toJson() => {
         "refLinks": List<dynamic>.from(refLinks.map((x) => x)),
         "status": status,
-        "initialDocIds": List<dynamic>.from(initialDocIds.map((x) => x)),
+        "initialDocs": List<dynamic>.from(initialDocs.map((x) => x.toJson())),
+        "history": List<dynamic>.from(history.map((x) => x.toJson())),
         "assigned": assigned,
         "type": type,
         "assignedEmail": assignedEmail,
@@ -92,6 +95,61 @@ class Approval {
         "createdBy": createdBy,
         "updatedAt": updatedAt.toIso8601String(),
         "createdAt": createdAt.toIso8601String(),
-        "history": List<dynamic>.from(history.map((x) => x)),
+      };
+}
+
+class History {
+  History({
+    required this.status,
+    required this.comments,
+    required this.createdAt,
+    required this.createdBy,
+    required this.queryFor,
+  });
+
+  String status;
+  String comments;
+  DateTime createdAt;
+  String createdBy;
+  String queryFor;
+
+  factory History.fromJson(Map<String, dynamic> json) => History(
+        status: json["status"],
+        comments: json["comments"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        createdBy: json["createdBy"],
+        queryFor: json["queryFor"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "comments": comments,
+        "createdAt": createdAt.toIso8601String(),
+        "createdBy": createdBy,
+        "queryFor": queryFor,
+      };
+}
+
+class InitialDoc {
+  InitialDoc({
+    required this.docId,
+    required this.docOriginalName,
+    required this.docS3Link,
+  });
+
+  String docId;
+  String docOriginalName;
+  String docS3Link;
+
+  factory InitialDoc.fromJson(Map<String, dynamic> json) => InitialDoc(
+        docId: json["doc_id"],
+        docOriginalName: json["doc_originalName"],
+        docS3Link: json["docS3Link"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "doc_id": docId,
+        "doc_originalName": docOriginalName,
+        "docS3Link": docS3Link,
       };
 }
