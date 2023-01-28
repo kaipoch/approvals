@@ -1,6 +1,8 @@
 import "package:approvals/constants.dart";
 import "package:approvals/models/approval_provider_model.dart";
+import "package:approvals/models/query_provider_model.dart";
 import "package:approvals/screens/approvals/approvals.dart";
+import "package:approvals/screens/queries/queries.dart";
 import "package:flutter/material.dart";
 import "package:flutter_speed_dial/flutter_speed_dial.dart";
 import "package:provider/provider.dart";
@@ -23,6 +25,7 @@ class _MainPageState extends State with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   String approvalStatus = "PENDING";
+  String queryStatus = "PENDING";
 
   @override
   void initState() {
@@ -80,15 +83,25 @@ class _MainPageState extends State with SingleTickerProviderStateMixin {
             child: const Icon(Icons.pending_actions),
             label: "Pending",
             backgroundColor: Colors.white,
-            onTap: () {}),
+            onTap: () {
+              setState(() {
+                queryStatus = "PENDING";
+              });
+            }),
         SpeedDialChild(
             child: const Icon(Icons.done_all),
             label: "Closed",
             backgroundColor: Colors.white,
-            onTap: () {}),
+            onTap: () {
+              setState(() {
+                queryStatus = "CLOSED";
+              });
+            }),
       ]
     ];
     context.read<ApprovalProviderModel>().getApprovals(approvalStatus);
+    context.read<QueryProviderModel>().getQueries(queryStatus);
+
     return DefaultTabController(
       length: myTabs.length,
       child: Scaffold(
@@ -117,7 +130,7 @@ class _MainPageState extends State with SingleTickerProviderStateMixin {
         ),
         body: TabBarView(
             controller: _tabController,
-            children: const [ApprovalScreen(), Center(child: Text("Query"))]),
+            children: const [ApprovalScreen(), QueryScreen()]),
         floatingActionButton: SpeedDial(
           backgroundColor: homeScreenDarkColor,
           animatedIcon: AnimatedIcons.menu_close,

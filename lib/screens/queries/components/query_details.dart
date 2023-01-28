@@ -1,54 +1,35 @@
 import 'package:approvals/constants.dart';
-import 'package:approvals/models/approval_provider_model.dart';
-import 'package:approvals/models/approvals.dart';
-import 'package:approvals/screens/approvals/components/audit.dart';
-import 'package:approvals/screens/approvals/components/raise_query.dart';
+import 'package:approvals/models/queries.dart';
+import 'package:approvals/models/query_provider_model.dart';
+import 'package:approvals/screens/queries/components/audit.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class ApprovalDetailScreen extends StatelessWidget {
-  Approval approval;
+class QueryDetailScreen extends StatelessWidget {
+  Query query;
   Color statusColor = Colors.yellow;
   final _commentController = TextEditingController();
-  ApprovalDetailScreen({Key? key, required this.approval}) : super(key: key);
+  QueryDetailScreen({Key? key, required this.query}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (approval.status == "PENDING") {
+    if (query.status == "PENDING_QUERY") {
       statusColor = Colors.orangeAccent;
-    } else if (approval.status == "APPROVED") {
+    } else if (query.status == "CLOSED_QUERY") {
       statusColor = Colors.green;
-    } else if (approval.status == "REJECTED") {
-      statusColor = Colors.red;
     }
     return Scaffold(
         appBar: AppBar(
           backgroundColor: homeScreenPrimaryColor,
           title: Text(
-            approval.mailSubject,
+            query.mailSubject,
             style: const TextStyle(
                 color: Colors.black54,
                 fontWeight: FontWeight.bold,
                 fontSize: 13),
             textScaleFactor: 1.0,
           ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => RaiseQueryScreen(
-                              approval: approval,
-                            )));
-              },
-              icon: const Icon(
-                Icons.contact_support,
-                size: 25,
-              ),
-            )
-          ],
           bottom: PreferredSize(
             preferredSize: const Size(100.0, 300.0),
             child: SizedBox(
@@ -69,7 +50,7 @@ class ApprovalDetailScreen extends StatelessWidget {
                           ),
                           Text(
                             DateFormat('yyyy-MMM-dd hh:mm a')
-                                .format(approval.updatedAt),
+                                .format(query.updatedAt),
                             style: const TextStyle(
                                 color: Colors.black54,
                                 fontSize: 10,
@@ -86,7 +67,7 @@ class ApprovalDetailScreen extends StatelessWidget {
                           color: statusColor,
                         ),
                         child: Text(
-                          approval.status,
+                          query.status,
                           style: const TextStyle(
                               color: Colors.white, fontSize: 12),
                           textScaleFactor: 1.0,
@@ -106,7 +87,7 @@ class ApprovalDetailScreen extends StatelessWidget {
                           SizedBox(
                             width: 150,
                             child: Text(
-                              approval.type,
+                              query.type,
                               style: const TextStyle(
                                   color: Colors.black54,
                                   fontSize: 12,
@@ -125,7 +106,7 @@ class ApprovalDetailScreen extends StatelessWidget {
                               color: Colors.black54,
                             ),
                             child: Text(
-                              approval.businessApplication,
+                              query.businessApplication,
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 8),
                               textScaleFactor: 1.0,
@@ -134,7 +115,7 @@ class ApprovalDetailScreen extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        'Raised By : ${approval.initiator}',
+                        'Raised By : ${query.initiator}',
                         style: const TextStyle(
                             color: Colors.black54,
                             fontSize: 12,
@@ -152,7 +133,7 @@ class ApprovalDetailScreen extends StatelessWidget {
                       padding: EdgeInsets.all(5),
                       child: SingleChildScrollView(
                         child: Text(
-                          approval.mailContent,
+                          query.mailContent,
                           style: const TextStyle(
                               color: Colors.black54, fontSize: 15),
                           textScaleFactor: 1.0,
@@ -183,10 +164,10 @@ class ApprovalDetailScreen extends StatelessWidget {
               Container(
                 height: 250,
                 child: Audit(
-                  histories: approval.history,
+                  histories: query.history,
                 ),
               ),
-              approval.status == "PENDING"
+              query.status == "PENDING_QUERY"
                   ? Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
@@ -196,7 +177,7 @@ class ApprovalDetailScreen extends StatelessWidget {
                       ),
                     )
                   : SizedBox.shrink(),
-              approval.status == "PENDING"
+              query.status == "PENDING_QUERY"
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -219,45 +200,15 @@ class ApprovalDetailScreen extends StatelessWidget {
                             child: SizedBox(
                               width: 100,
                               child: Center(
-                                child: Text("Reject".toUpperCase(),
+                                child: Text("Close".toUpperCase(),
                                     style: TextStyle(fontSize: 14)),
                               ),
                             ),
                             onPressed: () => {
-                                  Provider.of<ApprovalProviderModel>(context,
+                                  Provider.of<QueryProviderModel>(context,
                                           listen: false)
-                                      .approveRejectApprovals(approval.id,
-                                          "REJECTED", _commentController.text),
-                                  Navigator.pop(context)
-                                }),
-                        TextButton(
-                            style: ButtonStyle(
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                    EdgeInsets.all(15)),
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.white),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.blue),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                        side: BorderSide(color: Colors.blue)))),
-                            child: SizedBox(
-                              width: 100,
-                              child: Center(
-                                child: Text("Approve".toUpperCase(),
-                                    style: TextStyle(fontSize: 14)),
-                              ),
-                            ),
-                            onPressed: () => {
-                                  Provider.of<ApprovalProviderModel>(context,
-                                          listen: false)
-                                      .approveRejectApprovals(approval.id,
-                                          "APPROVED", _commentController.text),
+                                      .closeQuery(
+                                          query.id, _commentController.text),
                                   Navigator.pop(context)
                                 }),
                       ],

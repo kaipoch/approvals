@@ -1,4 +1,5 @@
 import 'package:approvals/models/approval_provider_model.dart';
+import 'package:approvals/models/query_provider_model.dart';
 import 'package:approvals/routes.dart';
 import 'package:approvals/screens/splash/splash_screen.dart';
 import 'package:approvals/theme.dart';
@@ -8,7 +9,8 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => ApprovalProviderModel())
+      ChangeNotifierProvider(create: (context) => ApprovalProviderModel()),
+      ChangeNotifierProvider(create: (context) => QueryProviderModel())
     ],
     child: const MyApp(),
   ));
