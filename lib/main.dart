@@ -1,10 +1,17 @@
+import 'package:approvals/models/approval_provider_model.dart';
 import 'package:approvals/routes.dart';
 import 'package:approvals/screens/splash/splash_screen.dart';
 import 'package:approvals/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => ApprovalProviderModel())
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

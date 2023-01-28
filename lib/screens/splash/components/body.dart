@@ -1,3 +1,4 @@
+import 'package:approvals/environment_variables/globals.dart' as globals;
 import 'package:approvals/screens/login_page/login_page.dart';
 import 'package:approvals/screens/main_page/main_page.dart';
 import 'package:approvals/services/secure_storage_service.dart';
@@ -23,12 +24,13 @@ class _BodyState extends State<Body> {
             if (jwt == null || jwt == "") {
               Future.delayed(Duration.zero, () async {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const MainPage()));
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
               });
             } else {
+              globals.jwtToken = jwt;
               Future.delayed(Duration.zero, () async {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
+                    MaterialPageRoute(builder: (context) => const MainPage()));
               });
             }
           }

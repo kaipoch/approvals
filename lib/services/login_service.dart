@@ -7,15 +7,18 @@ import "package:fluttertoast/fluttertoast.dart";
 import 'package:http/http.dart' as http;
 
 class LoginService {
-  Future verifyLogin(String email, String password) async {
+  Future<dynamic> verifyLogin(String email, String password) async {
     const serviceUrl = '${globals.apiUrl}/login';
     final headers = {'Content-Type': 'application/json'};
     SecureStorage secureStorage = SecureStorage();
     try {
-      String json = _toJson(email, password);
+      String body = _toJson(email, password);
       final response =
-          await http.post(Uri.parse(serviceUrl), headers: headers, body: json);
-      print(response);
+          await http.post(Uri.parse(serviceUrl), headers: headers, body: body);
+      print(response.body);
+      var user = json.decode(response.body);
+      secureStorage.writeSecureData('jwt', user["data"]["token"]);
+      return user;
     } catch (e) {
       Fluttertoast.showToast(
           msg: "Login Failed! Please try again!",

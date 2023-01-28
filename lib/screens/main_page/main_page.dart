@@ -1,8 +1,10 @@
 import "package:approvals/constants.dart";
+import "package:approvals/screens/approvals/approvals.dart";
 import "package:flutter/material.dart";
 import "package:flutter_speed_dial/flutter_speed_dial.dart";
 
 class MainPage extends StatefulWidget {
+  static String routeName = "/mainPage";
   const MainPage({Key? key}) : super(key: key);
 
   @override
@@ -88,10 +90,9 @@ class _MainPageState extends State with SingleTickerProviderStateMixin {
             tabs: myTabs,
           ),
         ),
-        body: TabBarView(controller: _tabController, children: const [
-          Center(child: Text("approval")),
-          Center(child: Text("Query"))
-        ]),
+        body: TabBarView(
+            controller: _tabController,
+            children: const [ApprovalScreen(), Center(child: Text("Query"))]),
         floatingActionButton: SpeedDial(
           animatedIcon: AnimatedIcons.ellipsis_search,
           children: speedDialOptions.elementAt(_selectedIndex),

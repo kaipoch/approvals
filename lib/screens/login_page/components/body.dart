@@ -1,4 +1,6 @@
 import "package:approvals/constants.dart";
+import "package:approvals/environment_variables/globals.dart" as globals;
+import "package:approvals/screens/main_page/main_page.dart";
 import "package:approvals/services/login_service.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
@@ -144,8 +146,16 @@ class _BodyState extends State<Body> {
         const SizedBox(height: 20),
         GestureDetector(
           onTap: () {
-            loginService.verifyLogin(
-                _emailController.text, _passwordController.text);
+            loginService
+                .verifyLogin(_emailController.text, _passwordController.text)
+                .then((value) async => {
+                      globals.jwtToken = value!["data"]["token"],
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MainPage()),
+                          ModalRoute.withName(MainPage.routeName))
+                    });
           },
           child: Container(
             width: 200,
